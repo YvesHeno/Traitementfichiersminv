@@ -9,38 +9,23 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+source(file="Test/10-Saisie_minv_to_seee3.R", encoding ="UTF-8")
 ```
 
 
 # Logos
 ```{r logos,echo=FALSE}
+
 knitr::include_graphics("Logos/Logo_OFB.png")
+
 knitr::include_graphics("Logos/cofrac.png")
 ```
 
 # listes faunistiques
-```{r liste,echo=FALSE}
- Liste_fichiers <-  list.files("Exports/",pattern="*.txt",full.names=T)
-  n <- length(Liste_fichiers)
 
-  data_entree <- NULL
-  for (i in 1:n){
-    data_temp <- read.table(Liste_fichiers[i], header = TRUE, sep = "\t",
-                              stringsAsFactors = FALSE, quote = "\"",
-                              colClasses = c(CODE_OPERATION = "character",
-                                             CODE_STATION   = "character",
-                                             CODE_TAXON     = "character")) %>%
-      filter(RESULTAT > 0) 
- 
-   # data_entree <- rbind(data_entree,data_temp)
-    data_temp <- dplyr::select(data_temp,CODE_STATION ,DATE,NOM_LATIN_TAXON,RESULTAT ) %>% 
-     
-
-  }
-      print(data_entree)
-
-  n <- length(data_entree)
-  for (i in 1:n){
-    
-  }
+```{r autreliste,echo=FALSE}
+Dfexemple <- Saisie_minv_to_seee3("Fichiers_saisie") %>% as.data.frame()
+print(Dfexemple)
 ```
+
+
