@@ -43,12 +43,12 @@ source(file="R/Lire_formulaire_irstea.R", encoding ="UTF-8")
       Fichier <- paste(chemin_data,fichier_unitaire,sep="")
       nb_feuilles <-
         readODS::list_ods_sheets(Fichier) %>% length() %>% -2
-      # for (i in(1:nb_feuilles)){
-      #   data <- lire_formulaire_saisie(Fichier,i)
-      #   write.table(data,file=fichier_export,
-      #               sep="\t",append=TRUE,col.names = FALSE,
-      #               row.names = FALSE,quote=FALSE)
-      # }
+       for (i in(1:nb_feuilles)){
+         data <- lire_formulaire_saisie(Fichier,i)
+         write.table(data,file=fichier_export,
+                     sep="\t",append=TRUE,col.names = FALSE,
+                     row.names = FALSE,quote=FALSE)
+       }
 
   }
   print("Traitement fini, export(s) dans le dossier Exports")

@@ -33,6 +33,7 @@ Regroupe_traitement<- function(){
   Liste_fichiers <-  list.files("Exports/",pattern="*.txt",full.names=T)
   if(length(Liste_fichiers)==0){
     Saisie_minv_to_seee2("Fichiers_saisie")
+    # on pourrait faire la sortie de la data ici"
   }
     else{
       print("fichiers déjà traités")
