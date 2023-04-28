@@ -21,7 +21,9 @@ source(file="Test/Lire_formulaire_irstea.R", encoding ="UTF-8")
                          "RESULTAT",	"CODE_REMARQUE",sep="\t")
 
   chemin_data <- paste(chemin_data,"/",sep="")
-  Df_entree_seee <- NULL
+  Df_entree_seee <- matrix(ncol = 22,nrow = 0) %>%     as.data.frame()
+
+
   Liste_fichiers <-
     list.files(chemin_data,pattern=".ods")
   ifelse(!dir.exists("Exports"),dir.create("Exports"),""
@@ -47,20 +49,29 @@ source(file="Test/Lire_formulaire_irstea.R", encoding ="UTF-8")
                 row.names = FALSE,quote=FALSE)
 
       Fichier <- paste(chemin_data,fichier_unitaire,sep="")
-      nb_feuilles <-
-        readODS::list_ods_sheets(Fichier) %>% length() %>% -2
+      nb_feuilles <-readODS::list_ods_sheets(Fichier) %>%
+        length() %>% -2
+
        for (i in(1:nb_feuilles)){
          data <- lire_formulaire_saisie(Fichier,i)
-         Df_entree_seee <- rbind(Df_entree_seee,data())
+         Df_entree_seee <- rbind(Df_entree_seee,data)
          write.table(data,file=fichier_export,
-                     sep="\t",append=TRUE,col.names = FALSE,
+                     sep="\t",append=TRUE,col.names = F,
                      row.names = FALSE,quote=FALSE)
        }
 
   }
 
+
+
+
+
   print("Traitement fini, export(s) dans le dossier Exports")
+
+
   return(Df_entree_seee)
+
+
 }
-#Dfexemple <- Saisie_minv_to_seee3("Fichiers_saisie") %>%   as.data.frame()
+# Dfexemple <- Saisie_minv_to_seee3("Fichiers_saisie")
 

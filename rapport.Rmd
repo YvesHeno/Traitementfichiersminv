@@ -24,7 +24,19 @@ knitr::include_graphics("Logos/cofrac.png")
 # listes faunistiques
 
 ```{r autreliste,echo=FALSE}
-Dfexemple <- Saisie_minv_to_seee3("Fichiers_saisie") %>% as.data.frame()
+Dfexemple <- Saisie_minv_to_seee3("Fichiers_saisie")
+  
+  colnames(Dfexemple) <- c("CODE_OPERATION","CODE_STATION",	"LB_STATION",
+                                "CODE_POINT",	"DATE",	"CODE_PRODUCTEUR",
+                                "NOM_PRODUCTEUR",	"CODE_PRELEVEUR",
+                                "NOM_PRELEVEUR",	"CODE_DETERMINATEUR",
+                                "NOM_DETERMINATEUR",	"COORD_X_OP",
+                                 "COORD_Y_OP",
+                                "COORD_X_OP_AVAL",	"COORD_Y_OP_AVAL",
+                                "TYPO_NATIONALE",	"CODE_PHASE",
+                            "CODE_PREL_ELEM",
+                                "CODE_TAXON",	"NOM_LATIN_TAXON",
+                                "RESULTAT",	"CODE_REMARQUE")
 print(Dfexemple)
 ```
 

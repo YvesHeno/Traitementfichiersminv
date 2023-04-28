@@ -74,8 +74,10 @@ lire_formulaire_saisie <- function(fichier_ods,
     }
     ifelse(is.na(invertebres[i+1,3]),fin <- TRUE,i <- i+1)
   }
+
+  operation_see <- as.data.frame(operation_see)
+
   return(operation_see)
 }
-
 
 
