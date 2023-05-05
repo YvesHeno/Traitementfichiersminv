@@ -18,9 +18,7 @@ Regroupe_traitement<- function(){
   source(file="R/35-Carto_i2m2.R", encoding ="UTF-8")
   #source(file="R/40-outil diagODInvertebres_v1.0.2.R", encoding ="UTF-8")
   source(file="R/41-calcule_SEEE_ODinvertebres_eptb.R", encoding ="UTF-8")
-
-
-  #chargement des packages
+  source(file="R/11-prepa_donnee.R", encoding ="UTF-8")#chargement des packages
   ## CHARGEMENT DES PACKAGES ----
   dependencies <- c("dplyr", "sfsmisc", "tidyr","purrr","stringr",
                     "vegan", "ade4", "ranger", "mlr","sf","tidyverse","httr")
@@ -59,6 +57,10 @@ Regroupe_traitement<- function(){
     data_entree <- rbind(data_entree,data_temp)
 
   }
+
+  #préparation de data_entree
+  #en particulier, code_opération n'est pas renseigné par eurofins
+  data_entree <- prepa_donnee(data_entree)
 
   print("******************  calcul I2M2")
   Tableau_i2m2_metriques <- calcule_SEEE_I2M2(data_entree)

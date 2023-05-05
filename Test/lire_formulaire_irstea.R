@@ -4,7 +4,7 @@ lire_formulaire_saisie <- function(fichier_ods,
   invertebres <- readODS::read_ods(fichier_ods,
                   sheet=feuille)
 
-  operation_see <- c()
+  operation_see <- NULL
   cdstation <- invertebres[22,2]
   nom_station <- invertebres[22,4]
   Date_ope <- invertebres[25,4]

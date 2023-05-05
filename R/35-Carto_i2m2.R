@@ -18,4 +18,5 @@ Carte_i2m2 <- function(Tableau_i2m2_metriques){
                    col.regions=c('red','orange','yellow','green','blue'),
                    at = c(0,0.1523,0.3047,0.457,0.7078,1),
                    legend=T)
+  #mapview::mapview(indicesgeom,at = c(0,0.1523,0.3047,0.457,0.7078,1))
 }
