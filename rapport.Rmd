@@ -9,7 +9,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-source(file="Test/10-Saisie_minv_to_seee3.R", encoding ="UTF-8")
+source(file="Test/Seee_tot_dataframe.R", encoding ="UTF-8")
 ```
 
 

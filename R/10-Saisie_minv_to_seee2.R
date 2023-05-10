@@ -46,8 +46,15 @@ source(file="R/Lire_formulaire_irstea.R", encoding ="UTF-8")
                 row.names = FALSE,quote=FALSE)
 
       Fichier <- paste(chemin_data,fichier_unitaire,sep="")
-      nb_feuilles <-
-        readODS::list_ods_sheets(Fichier) %>% length() %>% -2
+      feuilles <-readODS::list_ods_sheets(Fichier)
+      nb_feuilles <- 0
+      i <- 1
+      while (i<length(feuilles)){
+        if (nchar(feuilles[i])<9){
+          nb_feuilles <- nb_feuilles+1
+        }
+        i <- i+1
+      }
        for (i in(1:nb_feuilles)){
          data <- lire_formulaire_saisie(Fichier,i)
          write.table(data,file=fichier_export,
