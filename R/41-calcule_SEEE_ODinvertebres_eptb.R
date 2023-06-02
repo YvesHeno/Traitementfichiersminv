@@ -90,8 +90,8 @@ calcule_SEEE_ODinvertebres <- function(donnees)
 
   data <- strsplit(data, '\n[1] \"Fichier\"\n', fixed = TRUE)
 
-  data_base <- read.csv2(text = data[[1]][1], skip = 1)
-  data_comp <- read.csv2(text = data[[1]][2], skip = 1)
+  data_base <- read.csv2(text = data[[1]][1], skip = 1,encoding = "UTF-8")
+  data_comp <- read.csv2(text = data[[1]][2], skip = 1,encoding = "UTF-8")
 
   data <- left_join(data_base, data_comp, by = "CODE_OPERATION")
   if(length(unique(donnees$CODE_OPERATION))>nrow(data)){warning("Attention, certains résultats d'opération ne figurent pas dans le fichier résultat.")}

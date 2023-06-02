@@ -1,10 +1,9 @@
-lire_formulaire_saisie <- function(fichier_ods,
-                                   feuille = 1)
-  {
-  invertebres <- readODS::read_ods(fichier_ods,
-                  sheet=feuille)
+lire_formulaire_saisie <- function(fichier_ods,feuille)
+{
+  library("tidyverse",character.only = T)
 
-  operation_see <- c()
+  invertebres <- readODS::read_ods(fichier_ods,sheet=feuille)
+  operation_seee <- NULL
   cdstation <- invertebres[22,2]
   nom_station <- invertebres[22,4]
   Date_ope <- invertebres[25,4]
@@ -26,7 +25,8 @@ lire_formulaire_saisie <- function(fichier_ods,
   invertebres[is.na(invertebres)] <- 0 # pour eviter les comparaisons de na
   i <- 1
   fin <- FALSE
-  while (fin==FALSE){
+  while (!is.na(invertebres[i+1,3])){
+
     if (invertebres[i,5]!=0) { #phaseA<>0
       prel_elem=which(invertebres[i,8:11]!=0) #chercher le num duprel elem
       prel_elem <- prel_elem+7 #pour retrouver les bonnes positions dans le tableau macroinvertebres
@@ -39,10 +39,25 @@ lire_formulaire_saisie <- function(fichier_ods,
                    code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
                    typo,"A",j-7,invertebres[i,4],invertebres[i,3],
                    invertebres[i,j],"1")
-        operation_see <- rbind(operation_see,ligne)
+
+        operation_seee <- rbind(operation_seee,ligne)
       }
+      if (nb==0){#pas de renseignement sur les prel elementaires
+
+        ligne <- c(code_operation,cdstation,nom_station,
+                   code_point,Date_ope,code_prod,nom_producteur,
+                   code_determ,nom_determ, #en fait c'est le preleveur ici mais on met determ c est le même
+                   code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
+                   typo,"A","",invertebres[i,4],invertebres[i,3],
+                   invertebres[i,5],"1")
+        operation_seee <- rbind(operation_seee,ligne)
+      }
+
     }
-    else if (invertebres[i,6]!=0) { #phaseB<>0
+
+
+
+    if (invertebres[i,6]!=0) { #phaseB<>0
       prel_elem=which(invertebres[i,12:15]!=0) #chercher le num duprel elem
       prel_elem <- prel_elem+11 #pour retrouver les bonnes positions dans le tableau macroinvertebres
       nb <- length(prel_elem)
@@ -54,11 +69,22 @@ lire_formulaire_saisie <- function(fichier_ods,
                    code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
                    typo,"B",j-7,invertebres[i,4],invertebres[i,3],
                    invertebres[i,j],"1")
-        operation_see <- rbind(operation_see,ligne)
+        operation_seee <- rbind(operation_seee,ligne)
+      }
+      if (nb==0){#pas de renseignement sur les prel elementaires
+
+        ligne <- c(code_operation,cdstation,nom_station,
+                   code_point,Date_ope,code_prod,nom_producteur,
+                   code_determ,nom_determ, #en fait c'est le preleveur ici mais on met determ c est le même
+                   code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
+                   typo,"B","",invertebres[i,4],invertebres[i,3],
+                   invertebres[i,6],"1")
+        operation_seee <- rbind(operation_seee,ligne)
       }
     }
-    else if (invertebres[i,7]!=0) { #phaseB<>0
+    if (invertebres[i,7]!=0) { #phaseB<>0
       prel_elem=which(invertebres[i,16:19]!=0) #chercher le num duprel elem
+
       prel_elem <- prel_elem+15 #pour retrouver les bonnes positions dans le tableau macroinvertebres
       nb <- length(prel_elem)
       for (j in prel_elem){
@@ -69,13 +95,28 @@ lire_formulaire_saisie <- function(fichier_ods,
                    code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
                    typo,"C",j-7,invertebres[i,4],invertebres[i,3],
                    invertebres[i,j],"1")
-        operation_see <- rbind(operation_see,ligne)
+        operation_seee <- rbind(operation_seee,ligne)
       }
+      if (nb==0){#pas de renseignement sur les prel elementaires
+
+        ligne <- c(code_operation,cdstation,nom_station,
+                   code_point,Date_ope,code_prod,nom_producteur,
+                   code_determ,nom_determ, #en fait c'est le preleveur ici mais on met determ c est le même
+                   code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
+                   typo,"C","",invertebres[i,4],invertebres[i,3],
+                   invertebres[i,7],"1")
+        operation_seee <- rbind(operation_seee,ligne)
+      }
+
+
+
+
     }
-    ifelse(is.na(invertebres[i+1,3]),fin <- TRUE,i <- i+1)
+    i <- i+1
   }
-  list(operation_see)
+
+  # operation_see <- as.data.frame(operation_see)
+
+  return(operation_seee)
 }
-
-
 

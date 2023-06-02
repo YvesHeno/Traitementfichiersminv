@@ -22,9 +22,9 @@ source(file="Test/Lire_formulaire_irstea.R", encoding ="UTF-8")
                          "RESULTAT",	"CODE_REMARQUE")
 
   chemin_data <- paste(chemin_data,"/",sep="")
-  Df_entree_seee <- matrix(ncol = 22,nrow = 0) %>%     as.data.frame()
+  #Df_entree_seee <- matrix(ncol = 22,nrow = 0) %>%     as.data.frame()
 
-  #Df_entree_seee <- NULL
+  Df_entree_seee <- data.frame()
 
   Liste_fichiers <-
     list.files(chemin_data,pattern=".ods")
@@ -32,7 +32,7 @@ source(file="Test/Lire_formulaire_irstea.R", encoding ="UTF-8")
          )
 
 for (fichier_unitaire in Liste_fichiers){
-  print(paste("Fichier en cours: ", fichier_unitaire))
+ #print(paste("Fichier en cours: ", fichier_unitaire))
   Fichier <- paste(chemin_data,fichier_unitaire,sep="")
   feuilles <-readODS::list_ods_sheets(Fichier)
   nb_feuilles <- length(feuilles)
@@ -42,8 +42,8 @@ for (fichier_unitaire in Liste_fichiers){
     if (nchar(feuilles[i])<9){
       #il y a qqfois des feuilles annexes
       print(paste("station :",feuilles[i]))
-      data <- lire_formulaire_saisie(Fichier,i)# %>%  as.data.frame()
-      Df_entree_seee <- rbind(Df_entree_seee,data)
+      data <- lire_formulaire_saisie(Fichier,i) %>%  as.data.frame()
+      Df_entree_seee <- rbind(data,Df_entree_seee)
     }
    }
 

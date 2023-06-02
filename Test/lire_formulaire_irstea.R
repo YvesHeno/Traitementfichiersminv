@@ -1,10 +1,10 @@
-lire_formulaire_saisie <- function(fichier_ods,
-                                   feuille = 1)
+lire_formulaire_saisie <- function(fichier_ods,feuille)
   {
+
   invertebres <- readODS::read_ods(fichier_ods,
                   sheet=feuille)
-
-  operation_see <- NULL
+  print(is.null(invertebres))
+  operation_seee <- NULL
   cdstation <- invertebres[22,2]
   nom_station <- invertebres[22,4]
   Date_ope <- invertebres[25,4]
@@ -39,7 +39,7 @@ lire_formulaire_saisie <- function(fichier_ods,
                    code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
                    typo,"A",j-7,invertebres[i,4],invertebres[i,3],
                    invertebres[i,j],"1")
-        operation_see <- rbind(operation_see,ligne)
+        operation_seee <- rbind(operation_seee,ligne)
       }
     }
     else if (invertebres[i,6]!=0) { #phaseB<>0
@@ -54,7 +54,7 @@ lire_formulaire_saisie <- function(fichier_ods,
                    code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
                    typo,"B",j-7,invertebres[i,4],invertebres[i,3],
                    invertebres[i,j],"1")
-        operation_see <- rbind(operation_see,ligne)
+        operation_seee <- rbind(operation_seee,ligne)
       }
     }
     else if (invertebres[i,7]!=0) { #phaseB<>0
@@ -69,15 +69,18 @@ lire_formulaire_saisie <- function(fichier_ods,
                    code_determ,nom_determ,x_op,y_op,x_aval,y_aval,
                    typo,"C",j-7,invertebres[i,4],invertebres[i,3],
                    invertebres[i,j],"1")
-        operation_see <- rbind(operation_see,ligne)
+        operation_seee <- rbind(operation_seee,ligne)
       }
     }
+    # on traite ici le cas où les prel elementaires ne sont pas renseignés, juste les phases
+    # A, B, C (les prel elem ne sont pas obligatoires le SEEE
+    )
     ifelse(is.na(invertebres[i+1,3]),fin <- TRUE,i <- i+1)
   }
 
  # operation_see <- as.data.frame(operation_see)
 
-  return(operation_see)
+  return(operation_seee)
 }
 
 
