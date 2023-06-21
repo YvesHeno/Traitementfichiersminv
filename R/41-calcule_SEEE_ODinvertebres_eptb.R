@@ -72,8 +72,7 @@ calcule_SEEE_ODinvertebres <- function(donnees)
 
 
   fichier_tmp <- "Temp/fichier_temporaire.csv"
-  write.table(donnees, fichier_tmp, sep = "\t", row.names = F,fileEncoding = "UTF-8")
-
+  write.table(donnees, fichier_tmp, sep = "\t", row.names = F)
   test <-
     POST(
       url_base,

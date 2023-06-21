@@ -1,0 +1,92 @@
+---
+title: "Rapport d'essai"
+author: "Laboratoire d'hydrobiologie, OFB Bretagne"
+date: "2023-04-27"
+output: html_document
+classoption: landscape
+  
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,warning = F)
+library("tidyverse",character.only = T)
+
+library(DT)
+source(file="R/10-Saisie_minv_to_seee2.R", encoding ="UTF-8")
+  #source(file="R/30-seee_to_i2m2.R", encoding ="UTF-8")
+  source(file="R/30-calcule_SEEE_I2M2_eptb.R", encoding ="UTF-8")
+  source(file="R/31-Chargement_packages.R", encoding ="UTF-8")
+  source(file="R/35-Carto_i2m2.R", encoding ="UTF-8")
+  #source(file="R/40-outil diagODInvertebres_v1.0.2.R", encoding ="UTF-8")
+  source(file="R/41-calcule_SEEE_ODinvertebres_eptb.R", encoding ="UTF-8")
+ source(file="R/20-Seee_to_df.R", encoding ="UTF-8")
+  source(file="R/11-prepa_donnee.R", encoding ="UTF-8")#chargement des packages
+source(file="R/Fichier_saisie_todf_brut.R", encoding ="UTF-8")#chargement des packages
+```
+
+
+OFB-DR BRETAGNE
+Laboratoire d'Hydrobiologie
+ZAC Atalante Champeaux
+10, rue Maurice Fabre
+CS 96515 - 35 065 RENNES Cédex
+Tel : 02.99.33.44.34
+
+```{r logos,echo=FALSE}
+
+knitr::include_graphics("Logos/Logo_OFB.png")
+
+
+knitr::include_graphics("Logos/cofrac.png")
+"ACCREDITATION COFRAC N°1-7165"  
+"Portée disponible  sur www.cofrac.fr"  
+```
+Essai & méthodes utilises
+
+
+PEUPLEMENT  D INVERTEBRES DEAU DOUCE, calcul INDICES BIOLOGIQUES et / ou METRIQUES    
+
+Méthodes d’essai:    
+
+Prélèvement des macro-invertébrés aquatiques en rivières peu profondes Norme NF T 90-333 (septembre 2016),
+Traitement au laboratoire d’échantillons contenant des macro-invertébrés de cours d’eau Norme NF T 90-388 (Décembre 2020)   
+
+Etablissement  d’1 liste par phase  par échantillons regroupés), niveau de détermination taxonomique genre (option B), abondance estimée par taxon (option 2)   
+
+Conservation des échantillons  : Alcool 96°
+Loupe x 2 pour le tri, Binoculaire x 135 pour la détermination
+
+
+
+
+# listes faunistiques
+
+```{r Liste faunistique,echo=FALSE,comment = NA}
+data_entree <- Seee_to_df("Exports/")
+data_entree[,19] <- as.numeric(data_entree[,19])
+Liste_especes <- readxl::read_xlsx("Data/BD_MINV_2023FM.xlsx")
+Data_Et_Groupes <- left_join(data_entree,Liste_especes,by='CODE_TAXON')
+
+
+ivaleursaffichees <- c(2,3,17,19,20,21,24:26)
+
+
+TableauTrie <- arrange(Data_Et_Groupes,CODE_STATION,NUM_REF)
+datatable(TableauTrie[,ivaleursaffichees], options = list(pageLength = 300)) 
+
+
+```
+
+```{r Liste compacte,echo=FALSE,comment = NA}
+inv <- Fichier_saisie_todf_brut()
+colnames(inv) <- c("CODE_STATION","date","CODE_TAXON","A","B","C")
+inv[,3] <- as.numeric(inv[,3])
+Data_Et_Groupes <- left_join(inv,Liste_especes,by='CODE_TAXON')
+TableauTrie <- arrange(Data_Et_Groupes,CODE_STATION,NUM_REF)
+datatable(TableauTrie[1:10,], options = list(pageLength = 300)) 
+
+```
+
+

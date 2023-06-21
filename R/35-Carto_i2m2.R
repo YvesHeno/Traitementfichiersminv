@@ -11,7 +11,7 @@ Carte_i2m2 <- function(Tableau_i2m2_metriques){
   #afrique, on la vire
   #mapview::mapview(stations)
   indicesgeom <-dplyr::left_join(Extracti2m2,stations,by="cdstation") %>% st_as_sf()
-  sf::st_write(indicesgeom,"Cartographie/i2m2.shp")
+  #sf::st_write(indicesgeom,"Cartographie/i2m2.shp")
   #création de carte
   #les seuils sont ceux des HER Bretagne 12A et 12B
   #couleurs à changer

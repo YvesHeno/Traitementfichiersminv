@@ -434,7 +434,7 @@ funTrait <- function(Table, Traits) {
 funPred <- function(data, normalisation) {
 
   data <- as.data.frame(data)
-  rownames(data) <- data$CODE_OPERATION
+  # rownames(data) <- data$CODE_OPERATION
 
   predict_DT <- function(object,
                          newdata,
@@ -576,7 +576,7 @@ options(warn = -1)
 
 # Recuperation du fichier d'entree
 
-File           <- "Exports/Echange_LISTES_Minv_2022_DREAL_BZH.txt"
+File           <- "Exports/minv2022_et_cd35.txt"
 complementaire <- TRUE
 
 # Initialisation de l'heure
@@ -676,7 +676,7 @@ if (length(missingMetrics) > 0) {
 
 # Calcul des predictions
 
-predictions <- funPred(data = metriques, normalisation = normalisation) %>%
+predictions <- funPred(data = metriques, normalisation = normalisation)  %>%
   mutate(CODE_OPERATION = as.character(CODE_OPERATION))
 
 ## RESULTATS COMPLEMENTAIRES ----
