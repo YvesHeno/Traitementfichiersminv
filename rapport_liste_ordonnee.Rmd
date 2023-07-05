@@ -64,28 +64,28 @@ Loupe x 2 pour le tri, Binoculaire x 135 pour la détermination
 # listes faunistiques
 
 ```{r Liste faunistique,echo=FALSE,comment = NA}
-data_entree <- Seee_to_df("Exports/")
-data_entree[,19] <- as.numeric(data_entree[,19])
+# data_entree <- Seee_to_df("Exports/")
+# data_entree[,19] <- as.numeric(data_entree[,19])
 Liste_especes <- readxl::read_xlsx("Data/BD_MINV_2023FM.xlsx")
-Data_Et_Groupes <- left_join(data_entree,Liste_especes,by='CODE_TAXON')
-
-
-ivaleursaffichees <- c(2,3,17,19,20,21,24:26)
-
-
-TableauTrie <- arrange(Data_Et_Groupes,CODE_STATION,NUM_REF)
-datatable(TableauTrie[,ivaleursaffichees], options = list(pageLength = 300)) 
+# Data_Et_Groupes <- left_join(data_entree,Liste_especes,by='CODE_TAXON')
+# 
+# 
+# ivaleursaffichees <- c(2,3,17,19,20,21,24:26)
+# 
+# 
+# TableauTrie <- arrange(Data_Et_Groupes,CODE_STATION,NUM_REF)
+# datatable(TableauTrie[,ivaleursaffichees], options = list(pageLength = 300)) 
 
 
 ```
 
 ```{r Liste compacte,echo=FALSE,comment = NA}
 inv <- Fichier_saisie_todf_brut()
-colnames(inv) <- c("CODE_STATION","date","CODE_TAXON","A","B","C")
-inv[,3] <- as.numeric(inv[,3])
+colnames(inv) <- c("CODE_STATION","date","TAXON","CODE_TAXON","A","B","C")
+inv[,4] <- as.numeric(inv[,4])
 Data_Et_Groupes <- left_join(inv,Liste_especes,by='CODE_TAXON')
 TableauTrie <- arrange(Data_Et_Groupes,CODE_STATION,NUM_REF)
-datatable(TableauTrie[1:10,], options = list(pageLength = 300)) 
+datatable(TableauTrie, options = list(pageLength = 300)) 
 
 ```
 

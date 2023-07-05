@@ -1,0 +1,89 @@
+---
+title: "Rapport essai COFRAC"
+author: "Laboratoire d'hydrobiologie"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(DT)
+source(file="../R/20-Seee_to_df.R", encoding ="UTF-8")
+
+
+knitr::opts_chunk$set(echo = F)
+```
+```{r logos}
+
+# setwd("C:/Users/yves-marie.heno/Documents/Prog_R/Traitementfichiersminv/")
+# print(getwd())
+fig.hold='hold'
+par(mar=c(4,4,0.2,0.1))
+
+knitr::include_graphics("../Logos/Logo_OFB.png")
+
+# "OFB-DR BRETAGNE"
+# "Laboratoire d'Hydrobiologie"  
+# "ZAC Atalante Champeaux"
+# "10, rue Maurice Fabre"
+# "CS 96515 - 35 065 RENNES Cédex"
+# "Tel : 02.99.33.44.34  "
+knitr::include_graphics("../Logos/cofrac.png")
+
+
+
+```
+
+## Autre test logo
+
+```{r bunch-o-figs-pointsize, fig.height=8, fig.width=8, paged.print=TRUE}
+knitr::include_graphics("../Logos/Logo_OFB.png")
+knitr::include_graphics("../Logos/Logo_OFB.png")
+knitr::include_graphics("../Logos/Logo_OFB.png")
+knitr::include_graphics("../Logos/Logo_OFB.png")
+knitr::include_graphics("../Logos/Logo_OFB.png")
+```
+
+
+## Méthodes
+
+Essai & méthodes utilises
+
+
+PEUPLEMENT  D INVERTEBRES DEAU DOUCE, calcul INDICES BIOLOGIQUES et / ou METRIQUES    
+
+Méthodes d’essai:    
+
+Prélèvement des macro-invertébrés aquatiques en rivières peu profondes Norme NF T 90-333 (septembre 2016),
+Traitement au laboratoire d’échantillons contenant des macro-invertébrés de cours d’eau Norme NF T 90-388 (Décembre 2020)   
+
+Etablissement  d’1 liste par phase  par échantillons regroupés), niveau de détermination taxonomique genre (option B), abondance estimée par taxon (option 2)   
+
+Conservation des échantillons  : Alcool 96°
+Loupe x 2 pour le tri, Binoculaire x 135 pour la détermination
+
+
+## Liste des fichiers de données
+Les fichiers contenant les listes sont
+```{r liste fichiers, echo=F}
+Liste <- Seee_to_df("../Exports/") %>% data.frame() 
+# cette fonction donne ppalement un df des listes mais accessoirement donne la liste des fichiers
+```
+(Voir également EN64 pour les opérateurs)
+
+
+
+```{r stations et opérateurs,echo=FALSE}
+EN64 <- readxl::read_xlsx("../Data/EN64-0_Planning_Suivi_10052023.xlsx",sheet = 3)
+colnames(EN64) <- c("CODE_OP","CODE_STATION","LB_STATION","DATEPREL","DETERM","MATOS","TUTORAT","DATETRIDEB","DATETRIFIN","OPETRI","DATEDETERDEB","DATEDETERFIN","OPE")
+
+Operateurs <- select(EN64, CODE_STATION,DETERM,OPETRI)
+Liste_et_ope <- left_join(Operateurs,Liste,by="CODE_STATION") %>%  select(CODE_STATION,OPETRI,DETERM,DATE,CODE_REMARQUE) %>% 
+  slice(-(1))
+
+datatable(filter(Liste_et_ope,!is.na(DETERM)))
+
+
+```
+
+

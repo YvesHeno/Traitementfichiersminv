@@ -16,7 +16,7 @@ Fichier_saisie_todf_brut <- function(){
 
         temp <- readODS::read_ods(fichier_unitaire,sheet=feuilles[i]) %>%
         slice(-(1:86)) %>%
-        select(1:6)
+        select(1:7)
         j <- which(is.na(temp[,3]))
         invertebres <- rbind(invertebres,temp[1:j[1]-1,])
 
@@ -26,8 +26,9 @@ Fichier_saisie_todf_brut <- function(){
 invertebres[,4] <- as.numeric(invertebres[,4])
 invertebres[,5] <- as.numeric(invertebres[,5])
 invertebres[,6] <- as.numeric(invertebres[,6])
+invertebres[,7] <- as.numeric(invertebres[,7])
 # invertebres %>% select(A,B,C) %>%  mutate(Total=A+B+C)
-
+colnames(invertebres) <- c("CODE_STATION","date","TAXON","CODE_TAXON","A","B","C")
 return(invertebres)
 }
 inv <- Fichier_saisie_todf_brut()

@@ -20,11 +20,13 @@ Regroupe_traitement<- function(){
   source(file="R/41-calcule_SEEE_ODinvertebres_eptb.R", encoding ="UTF-8")
   source(file="R/11-prepa_donnee.R", encoding ="UTF-8")
   source(file="R/20-Seee_to_df.R", encoding ="UTF-8")
+  source(file="R/42-Graphes_outil_diag.R", encoding ="UTF-8")
   #chargement des packages
   ## CHARGEMENT DES PACKAGES ----
   dependencies <- c("dplyr", "sfsmisc", "tidyr","purrr","stringr","mapview",
                     "vegan", "ade4", "ranger", "mlr","sf","tidyverse","httr")
   loadDependencies(dependencies)
+
 
 
   print("***************** transformation des fichiers de saisie en fichiers entrée SEEE")
@@ -54,6 +56,8 @@ Regroupe_traitement<- function(){
 
   print("******************  calcul I2M2")
   Tableau_i2m2_metriques <- calcule_SEEE_I2M2(data_entree)
+  write.csv(Tableau_i2m2_metriques, "Exports/i2m2_metriques.csv")
+
 
 
 
@@ -67,7 +71,11 @@ Regroupe_traitement<- function(){
 
   print("******************  calcul métriques de l'outil diagnostic")
   Tableau_i2m2_diagnostic <- calcule_SEEE_ODinvertebres(data_entree)
+  write.csv(Tableau_i2m2_diagnostic, "Exports/i2m2_diag.csv")
+  Graphes_outil_diag(Tableau_i2m2_diagnostic)
+
 
   return(data_entree)
 }
  data <- Regroupe_traitement()
+
